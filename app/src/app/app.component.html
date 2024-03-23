@@ -1,22 +1,22 @@
-<mat-toolbar class="page-header" color="primary" role="heading">
-  <span>{{title}}</span>
-  <span class="menu-spacer"></span>
-  <!--<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Navigation Menu">
-    <mat-icon aria-hidden="false" aria-label="Menu Icon" fontIcon="menu"></mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>Item 1</button>
-    <button mat-menu-item>Item 2</button>
-  </mat-menu>-->
-  <button type="button" mat-button aria-label="Navigation Menu Button" (click)="drawer.toggle()">
-    <mat-icon aria-hidden="false" aria-label="Menu Icon" fontIcon="menu"></mat-icon>
-  </button>
-</mat-toolbar>
-<mat-sidenav-container class="page-container">
-  <mat-sidenav-content class="page-content">
-    add stuff here
-  </mat-sidenav-content>
-  <mat-sidenav #drawer class="navigation-sidebar" role="navigation" mode="side" position="end">
-    Auto-resizing sidebar nav
-  </mat-sidenav>
-</mat-sidenav-container>
+<div [ngClass]="themeClass">
+  <mat-toolbar class="page-header" color="primary" role="heading">
+    <span>{{title}}</span>
+    <span class="menu-spacer"></span>
+    <mat-slide-toggle [(ngModel)]="themeMode" (change)="updateThemeMode()">{{themeLabel}}</mat-slide-toggle>
+    <button type="button" mat-button aria-label="Navigation Menu Button" (click)="drawer.toggle()">
+      <mat-icon aria-hidden="false" aria-label="Menu Icon" fontIcon="menu"></mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-sidenav-container class="page-container">
+    <mat-sidenav-content class="page-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+    <mat-sidenav #drawer class="navigation-sidebar" role="navigation" mode="side" position="end">
+      <nav>
+        <li><a routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">About</a></li>
+        <li><a>Projects</a></li>
+        <li><a>Contact</a></li>
+      </nav>
+    </mat-sidenav>
+  </mat-sidenav-container>
+</div>
