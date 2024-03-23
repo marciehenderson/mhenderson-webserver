@@ -1,90 +1,102 @@
 /* You can add global styles to this file, and also import other style files */
 
+// use angular material library
 @use '@angular/material' as mat;
-
+// include the core components of angular material
 @include mat.core();
-
-// Define a dark theme
+// define dark theme
 $dark-theme: mat.define-dark-theme((
   color: (
-    primary: mat.define-palette(mat.$pink-palette),
+    primary: mat.define-palette(mat.$deep-purple-palette),
     accent: mat.define-palette(mat.$blue-grey-palette),
   ),
-  // Only include `typography` and `density` in the default dark theme.
+  // only include `typography` and `density` in the default dark theme
   typography: mat.define-typography-config(),
   density: 0,
 ));
-
-// Define a light theme
+// define light theme
 $light-theme: mat.define-light-theme((
   color: (
-    primary: mat.define-palette(mat.$indigo-palette),
-    accent: mat.define-palette(mat.$pink-palette),
+    primary: mat.define-palette(mat.$deep-purple-palette),
+    accent: mat.define-palette(mat.$amber-palette),
   ),
 ));
-
-// Apply the dark theme by default
+// apply dark theme by default
 @include mat.core-theme($dark-theme);
 @include mat.button-theme($dark-theme);
+@include mat.fab-theme($dark-theme);
 @include mat.toolbar-theme($dark-theme);
 @include mat.slide-toggle-theme($dark-theme);
+@include mat.button-toggle-theme($dark-theme);
 @include mat.sidenav-theme($dark-theme);
 @include mat.menu-theme($dark-theme);
 @include mat.icon-theme($dark-theme);
 @include mat.card-theme($dark-theme);
 @include mat.tabs-theme($dark-theme);
-
-// Apply the light theme only when the user prefers light themes.
+@include mat.list-theme($dark-theme);
+// apply light theme when user prefers light themes
 @media (prefers-color-scheme: light) {
-  // Use the `-color` mixins to only apply color styles without reapplying the same
-  // typography and density styles.
+  // use the `-color` mixins to only apply color styles without reapplying the same typography and density styles
   @include mat.core-color($light-theme);
   @include mat.button-color($light-theme);
+  @include mat.fab-color($light-theme);
   @include mat.toolbar-color($light-theme);
   @include mat.slide-toggle-color($light-theme);
+  @include mat.button-toggle-color($light-theme);
   @include mat.sidenav-color($light-theme);
   @include mat.menu-color($light-theme);
   @include mat.icon-color($light-theme);
   @include mat.card-color($light-theme);
   @include mat.tabs-color($light-theme);
+  @include mat.list-color($light-theme);
 }
-
+// dark theme class
 .dark-theme{
   @include mat.core-color($dark-theme);
   @include mat.button-color($dark-theme);
+  @include mat.fab-color($dark-theme);
   @include mat.toolbar-color($dark-theme);
   @include mat.slide-toggle-color($dark-theme);
+  @include mat.button-toggle-color($dark-theme);
   @include mat.sidenav-color($dark-theme);
   @include mat.menu-color($dark-theme);
   @include mat.icon-color($dark-theme);
   @include mat.card-color($dark-theme);
   @include mat.tabs-color($dark-theme);
+  @include mat.list-color($dark-theme);
 }
-
+// light theme class
 .light-theme{
   @include mat.core-color($light-theme);
   @include mat.button-color($light-theme);
+  @include mat.fab-color($light-theme);
   @include mat.toolbar-color($light-theme);
   @include mat.slide-toggle-color($light-theme);
+  @include mat.button-toggle-color($light-theme);
   @include mat.sidenav-color($light-theme);
   @include mat.menu-color($light-theme);
   @include mat.icon-color($light-theme);
   @include mat.card-color($light-theme);
   @include mat.tabs-color($light-theme);
+  @include mat.list-color($light-theme);
 }
 
+// layout and typography styles
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* controls overall layout and navigation */
-.menu-spacer {
+// control overall layout and navigation
+.menu-spacer-full {
   flex: 1 1 auto;
 }
+.menu-spacer-small {
+  width: 1em;
+}
 .page-header {
-  height: 7dvh !important;
+  height: 8dvh !important;
 }
 .page-container {
-  height: 93dvh;
+  height: 92dvh;
 }
 .page-content {
   padding: 0 0;
@@ -93,7 +105,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 1dvh 1dvw;
 }
 
-/* used for ensuring tab card content fills page height */
+// ensures tab card content fills page height
 .tab-group {
   height: 100%;
 }

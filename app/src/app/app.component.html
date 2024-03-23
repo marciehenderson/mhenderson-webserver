@@ -1,22 +1,33 @@
+<!-- app is wrapped in themed div element -->
 <div [ngClass]="themeClass">
+  <!-- app header -->
   <mat-toolbar class="page-header" color="primary" role="heading">
     <span>{{title}}</span>
-    <span class="menu-spacer"></span>
-    <mat-slide-toggle [(ngModel)]="themeMode" (change)="updateThemeMode()">{{themeLabel}}</mat-slide-toggle>
-    <button type="button" mat-button aria-label="Navigation Menu Button" (click)="drawer.toggle()">
+    <span class="menu-spacer-full"></span>
+    <!-- app theme toggle switch -->
+    <button mat-mini-fab color="accent" aria-label="Theme Button" (click)="updateThemeMode()">
+      <mat-icon aria-hidden="false" aria-label="Theme Icon" [fontIcon]="themeLabel"></mat-icon>
+    </button>
+    <span class="menu-spacer-small"></span>
+    <!-- button expands navigation sidebar -->
+    <button mat-mini-fab color="accent" aria-label="Menu Button" (click)="drawer.toggle()">
       <mat-icon aria-hidden="false" aria-label="Menu Icon" fontIcon="menu"></mat-icon>
     </button>
   </mat-toolbar>
+  <!-- page container for content and navbar -->
   <mat-sidenav-container class="page-container">
+    <!-- page content appears in router outlet -->
     <mat-sidenav-content class="page-content">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
+    <!-- expandable navigation sidebar -->
     <mat-sidenav #drawer class="navigation-sidebar" role="navigation" mode="side" position="end">
-      <nav>
-        <li><a routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">About</a></li>
-        <li><a>Projects</a></li>
-        <li><a>Contact</a></li>
-      </nav>
+      <mat-nav-list>
+        <mat-list-item routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page">Home</mat-list-item>
+        <mat-list-item routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">About</mat-list-item>
+        <mat-list-item>Projects</mat-list-item>
+        <mat-list-item>Contact</mat-list-item>
+      </mat-nav-list>
     </mat-sidenav>
   </mat-sidenav-container>
 </div>
