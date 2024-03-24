@@ -34,6 +34,7 @@ $light-theme: mat.define-light-theme((
 @include mat.card-theme($dark-theme);
 @include mat.tabs-theme($dark-theme);
 @include mat.list-theme($dark-theme);
+@include mat.divider-theme($dark-theme);
 // apply light theme when user prefers light themes
 @media (prefers-color-scheme: light) {
   // use the `-color` mixins to only apply color styles without reapplying the same typography and density styles
@@ -49,6 +50,7 @@ $light-theme: mat.define-light-theme((
   @include mat.card-color($light-theme);
   @include mat.tabs-color($light-theme);
   @include mat.list-color($light-theme);
+  @include mat.divider-color($light-theme);
 }
 // dark theme class
 .dark-theme{
@@ -64,6 +66,7 @@ $light-theme: mat.define-light-theme((
   @include mat.card-color($dark-theme);
   @include mat.tabs-color($dark-theme);
   @include mat.list-color($dark-theme);
+  @include mat.divider-color($dark-theme);
 }
 // light theme class
 .light-theme{
@@ -79,6 +82,7 @@ $light-theme: mat.define-light-theme((
   @include mat.card-color($light-theme);
   @include mat.tabs-color($light-theme);
   @include mat.list-color($light-theme);
+  @include mat.divider-color($light-theme);
 }
 
 // layout and typography styles
@@ -114,4 +118,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .card-container {
   height: 100%;
+}
+
+// control the formatting of card on home page
+.page-card {
+  width: 80%;
+  margin-top: 4dvh;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 0.5em !important;
+}
+@media only screen and (min-width: 1200px) {
+  .card-divider {
+    visibility: hidden;
+  }
+  .card-content {
+    text-align: center;
+  }
+  .card-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .page-card {
+    margin-top: 8dvh;
+    border-radius: 1em !important;
+  }
+}
+
+// style random icon selector
+.random-icon {
+  margin-top: 4dvh;
+  width: 100%;
+  text-align: center;
+}
+.random-icon h3, .random-icon button {
+  margin-left: auto;
+  margin-right: auto;
 }

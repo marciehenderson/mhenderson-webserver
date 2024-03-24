@@ -1,9 +1,19 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Computer Information Systems Professional</mat-card-title>
-    <mat-card-subtitle>Prince Edward Island Canada</mat-card-subtitle>
+<mat-card class="page-card">
+  <mat-card-header class="card-header">
+    <mat-card-title>Welcome</mat-card-title>
+    <mat-card-subtitle>Thank you for visiting!</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-    <p>Under Construction...</p>
+  <mat-card-content class="card-content">
+    <p>This is the personal website for the computer informatics professional Marcie Henderson.</p>
+    <mat-divider class="card-divider"></mat-divider>
+    <p>The site can be navigated using the menu button at the top-right.</p>
+    <mat-divider class="card-divider"></mat-divider>
+    <p>The site's theme can be changed using the toggle button to the left of the menu.</p>
   </mat-card-content>
 </mat-card>
+<div class="random-icon">
+  <button mat-fab color="primary" aria-label="Random Icon Button" (click)="updateRandomIcon()">
+    <mat-icon aria-hidden="false" aria-label="Random Icon" [fontIcon]="iconName"></mat-icon>
+  </button>
+  <h3>Press for a random icon!</h3>
+</div>

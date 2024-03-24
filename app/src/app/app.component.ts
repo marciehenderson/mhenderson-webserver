@@ -50,7 +50,7 @@ export class AppComponent {
     this.themeLabel = 'bedtime';
 
     // check local storage variables
-    var themeLocal = localStorage.getItem('theme') || '{}';
+    let themeLocal = localStorage.getItem('theme') || '{}';
 
     // initialize app theme based on local storage variables or system preference
     if(themeLocal === 'light-theme'){
@@ -69,7 +69,7 @@ export class AppComponent {
   }
 
   // callback for theme switcher
-  updateThemeMode(): void {
+  updateThemeMode():void {
     // selects theme class and label based on mode flag
     if(this.themeClass !== 'dark-theme'){
       this.themeClass = 'dark-theme';
