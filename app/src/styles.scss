@@ -9,6 +9,7 @@ $dark-theme: mat.define-dark-theme((
   color: (
     primary: mat.define-palette(mat.$deep-purple-palette),
     accent: mat.define-palette(mat.$blue-grey-palette),
+    warn: mat.define-palette(mat.$amber-palette),
   ),
   // only include `typography` and `density` in the default dark theme
   typography: mat.define-typography-config(),
@@ -19,6 +20,7 @@ $light-theme: mat.define-light-theme((
   color: (
     primary: mat.define-palette(mat.$deep-purple-palette),
     accent: mat.define-palette(mat.$amber-palette),
+    warn: mat.define-palette(mat.$deep-orange-palette),
   ),
 ));
 // apply dark theme by default
@@ -67,6 +69,10 @@ $light-theme: mat.define-light-theme((
   @include mat.tabs-color($dark-theme);
   @include mat.list-color($dark-theme);
   @include mat.divider-color($dark-theme);
+
+  .is-active .mdc-list-item__primary-text{
+    color: #ffc107;
+  }
 }
 // light theme class
 .light-theme{
@@ -83,11 +89,24 @@ $light-theme: mat.define-light-theme((
   @include mat.tabs-color($light-theme);
   @include mat.list-color($light-theme);
   @include mat.divider-color($light-theme);
+
+  .is-active .mdc-list-item__primary-text{
+    color: #ff5722;
+  }
 }
 
 // layout and typography styles
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// default styling for hyperlinks
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+a:hover {
+  font-weight: bold;
+}
 
 // control overall layout and navigation
 .menu-spacer-full {
@@ -129,23 +148,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-right: auto;
   border-radius: 0.5em !important;
 }
-@media only screen and (min-width: 1200px) {
-  .card-divider {
-    visibility: hidden;
-  }
-  .card-content {
-    text-align: center;
-  }
-  .card-header {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .page-card {
-    margin-top: 8dvh;
-    border-radius: 1em !important;
-  }
-}
 
 // style random icon selector
 .random-icon {
@@ -170,8 +172,46 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-left: 0 !important;
   margin-right: 0.25em !important;
 }
+
+// style navigation sidebar backdrop
+.mat-drawer-transition .mat-drawer-backdrop {
+  opacity: 0; // hide animation
+}
+.mat-drawer-backdrop .mat-drawer-shown {
+  opacity: 0; // hide backdrop, but keep function
+}
+
+// style active hyperlinks
+
+
+// wide screen only formatting
 @media only screen and (min-width: 1200px) {
   .mat-divider {
     visibility: hidden;
+  }
+  .card-container{
+    width: 60dvw;
+    height: 70dvh;
+    margin-top: 8dvh;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .card-divider {
+    visibility: hidden;
+  }
+  .card-content {
+    text-align: center;
+  }
+  .card-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .page-card {
+    margin-top: 8dvh;
+    border-radius: 1em !important;
+  }
+  .header-title {
+    margin-left: 45dvw;
   }
 }

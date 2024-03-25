@@ -2,7 +2,7 @@
 <div [ngClass]="themeClass">
   <!-- app header -->
   <mat-toolbar class="page-header" color="primary" role="heading">
-    <span><a mat-flat-button color="primary" role="button" href=""><h1>{{title}}</h1></a></span>
+    <span class="header-title"><a mat-flat-button color="primary" role="button" href=""><h1>{{title}}</h1><mat-icon aria-hidden="true" fontIcon="business_center"></mat-icon></a></span>
     <span class="menu-spacer-full"></span>
     <!-- app theme toggle switch -->
     <button mat-mini-fab color="accent" aria-label="Theme Button" (click)="updateThemeMode()">
@@ -17,14 +17,14 @@
   <!-- page container for content and navbar -->
   <mat-sidenav-container class="page-container">
     <!-- page content appears in router outlet -->
-    <mat-sidenav-content class="page-content">
+    <mat-sidenav-content class="page-content" (click)="drawer.close()">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
     <!-- expandable navigation sidebar -->
     <mat-sidenav #drawer class="navigation-sidebar" role="navigation" mode="side" position="end">
       <mat-nav-list>
-        <mat-list-item routerLink="" routerLinkActive="active" ariaCurrentWhenActive="page">Home</mat-list-item>
-        <mat-list-item routerLink="/about" routerLinkActive="active" ariaCurrentWhenActive="page">About</mat-list-item>
+        <mat-list-item routerLink="" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" ariaCurrentWhenActive="page">Home</mat-list-item>
+        <mat-list-item routerLink="/about" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact: true}" ariaCurrentWhenActive="page">About</mat-list-item>
         <mat-list-item>Projects</mat-list-item>
         <mat-list-item>Contact</mat-list-item>
       </mat-nav-list>
