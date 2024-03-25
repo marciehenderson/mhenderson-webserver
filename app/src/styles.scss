@@ -118,6 +118,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .card-container {
   height: 100%;
+  overflow: scroll;
 }
 
 // control the formatting of card on home page
