@@ -97,10 +97,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 1em;
 }
 .page-header {
-  height: 8dvh !important;
+  height: 10dvh !important;
 }
 .page-container {
-  height: 92dvh;
+  height: 90dvh;
 }
 .page-content {
   padding: 0 0;
@@ -155,4 +155,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .random-icon h3, .random-icon button {
   margin-left: auto;
   margin-right: auto;
+}
+
+// style card list
+.mdc-list-item__secondary-text {
+  white-space: normal !important;
+  padding-bottom: 10px;
+}
+.card-list-item {
+  height: min-content !important;
+}
+.mat-mdc-list-item-icon {
+  margin-left: 0 !important;
+  margin-right: 0.25em !important;
+}
+@media only screen and (min-width: 1200px) {
+  .mat-divider {
+    visibility: hidden;
+  }
 }

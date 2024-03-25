@@ -2,7 +2,7 @@
 <div [ngClass]="themeClass">
   <!-- app header -->
   <mat-toolbar class="page-header" color="primary" role="heading">
-    <span>{{title}}</span>
+    <span><a mat-flat-button color="primary" role="button" href=""><h1>{{title}}</h1></a></span>
     <span class="menu-spacer-full"></span>
     <!-- app theme toggle switch -->
     <button mat-mini-fab color="accent" aria-label="Theme Button" (click)="updateThemeMode()">

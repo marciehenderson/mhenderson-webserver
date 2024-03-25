@@ -4,11 +4,28 @@
       <mat-card-header>
         <h2>Overview</h2>
       </mat-card-header>
-      <mat-card-content class="card-content">
-        <ul>
-          <li>Location - Charlottetown, Prince Edward Island, Canada</li>
-          <li>Skillset - Software Development, Computer Systems, Design Engineering</li>
-        </ul>
+      <mat-card-content>
+        <mat-list role="list">
+          <mat-list-item role="listitem" class="card-list-item"><mat-icon matListItemIcon fontIcon="location_on"></mat-icon>
+            <span matListItemTitle>Location</span>
+            <span>Charlottetown, Prince Edward Island, Canada</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem" class="card-list-item"><mat-icon matListItemIcon fontIcon="handyman"></mat-icon>
+            <span matListItemTitle>Skillset</span>
+            <span>Software development, computer systems, cybersecurity, design engineering, etc.</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem" class="card-list-item"><mat-icon matListItemIcon fontIcon="psychology"></mat-icon>
+            <span matListItemTitle>Motivation</span>
+            <span>Wants to improve humanity's overall quality-of-life through technological innovation</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item role="listitem" class="card-list-item"><mat-icon matListItemIcon fontIcon="pets"></mat-icon>
+            <span matListItemTitle>Interests</span>
+            <span>Handicrafts, music, programming, games, stories, pets, etc.</span>
+          </mat-list-item>
+        </mat-list>
       </mat-card-content>
     </mat-card>
   </mat-tab>
