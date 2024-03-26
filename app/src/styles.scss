@@ -181,9 +181,6 @@ a:hover {
   opacity: 0; // hide backdrop, but keep function
 }
 
-// style active hyperlinks
-
-
 // wide screen only formatting
 @media only screen and (min-width: 1200px) {
   .mat-divider {
@@ -212,6 +209,7 @@ a:hover {
     border-radius: 1em !important;
   }
   .header-title {
-    margin-left: 45dvw;
+    // calculate center of the page
+    margin-left: calc(50dvw - 16px - 48px - 48px - 1em);
   }
 }
