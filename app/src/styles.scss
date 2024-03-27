@@ -96,6 +96,15 @@ $light-theme: mat.define-light-theme((
   .mat-mdc-card.page-card {
     background-color: #d1c4e9;
   }
+  @media only screen and (min-width: 1200px) {
+    .mat-mdc-card.card-container {
+      background-color: #d1c4e9;
+    }
+    .card-container h2 {
+      border-bottom-color: #bbafd1;
+
+    }
+  }
 }
 
 // layout and typography styles
@@ -119,9 +128,12 @@ a:hover {
   width: 1em;
 }
 .page-header {
+  min-height: 60px;
+  max-height: 80px;
   height: 10dvh !important;
 }
 .page-container {
+  min-height: calc(100dvh - 80px);
   height: 90dvh;
 }
 .page-content {
@@ -190,14 +202,33 @@ a:hover {
     visibility: hidden;
   }
   .card-container {
-    width: 60dvw;
-    height: 70dvh;
-    margin-top: 8dvh;
+    max-width: 80dvw;
+    width: max-content;
+    height: min-content;
+    padding-bottom: 1em;
+    margin-top: 3em;
     margin-left: auto;
     margin-right: auto;
   }
-  .card-divider {
-    visibility: hidden;
+  .card-container h2 {
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 0.25em;
+    border-bottom-style: solid;
+    border-bottom-color: #595959;
+    border-bottom-width: 1px;
+  }
+  .card-container .card-list-item {
+    text-align: center;
+    flex-direction: column;
+    padding: 0 !important;
+  }
+  .card-container .mat-icon {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .card-container .mat-divider {
+    visibility: visible;
   }
   .card-content {
     text-align: center;
@@ -208,11 +239,26 @@ a:hover {
     margin-right: auto;
   }
   .page-card {
+    width: max-content !important;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 1em;
     margin-top: 8dvh;
     border-radius: 1em !important;
   }
   .contact-card {
-    width: 40dvw !important;
+    width: min-content !important;
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+  .contact-item {
+    flex-direction: column;
+    padding: 0 !important;
+  }
+  .contact-item .mat-icon {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: -0.5em;
   }
   .header-title {
     // calculate center of the page
