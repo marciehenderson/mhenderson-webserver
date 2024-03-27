@@ -90,6 +90,10 @@ $light-theme: mat.define-light-theme((
   @include mat.list-color($light-theme);
   @include mat.divider-color($light-theme);
 
+  a:hover {
+    background-color: #dbcff1;
+  }
+
   .is-active .mdc-list-item__primary-text {
     color: #ff5722;
   }
@@ -102,7 +106,6 @@ $light-theme: mat.define-light-theme((
     }
     .card-container h2 {
       border-bottom-color: #bbafd1;
-
     }
   }
 }
@@ -117,7 +120,7 @@ a {
   text-decoration: underline;
 }
 a:hover {
-  font-weight: bold;
+  background-color: #4d4d4d;
 }
 
 // control overall layout and navigation
@@ -209,10 +212,14 @@ a:hover {
     margin-top: 3em;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 1em !important;
   }
   .card-container h2 {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: -0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
     padding-bottom: 0.25em;
     border-bottom-style: solid;
     border-bottom-color: #595959;
