@@ -32,4 +32,4 @@ Personal web application for Canadian software developer Marcie Henderson.
 </ul>
 
 <h2>License</h2>
-TBD
+<a href="LICENSE">MIT License Copyright (c) 2024 Marcie Henderson</a>
