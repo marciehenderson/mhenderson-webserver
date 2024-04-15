@@ -100,6 +100,10 @@ $light-theme: mat.define-light-theme((
   .mat-mdc-card.page-card {
     background-color: #d1c4e9;
   }
+  .card-container img {
+    background-color: #fafafa;
+    box-shadow: 0 0.25em 0.25em #f0f0f0 inset, 0 -0.25em 0.25em #f0f0f0 inset;
+  }
   @media only screen and (min-width: 1200px) {
     .mat-mdc-card.card-container {
       background-color: #d1c4e9;
