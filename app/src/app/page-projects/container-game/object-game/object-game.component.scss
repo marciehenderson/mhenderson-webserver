@@ -1,0 +1,10 @@
+.object-game{
+  position: absolute; // enable overlapping and
+  // positioning relative to container
+  background-color: var(--object-color); // color
+  width: var(--object-width);   // width in px
+  height: var(--object-width);  // height in px
+  left: var(--object-left);     // x position in px
+  top: var(--object-top);       // y position in px
+  rotate: var(--object-rotate); // rotation in deg
+}
