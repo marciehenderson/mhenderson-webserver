@@ -150,6 +150,13 @@ a:hover {
   padding: 1dvh 1dvw;
 }
 
+// adds support for landscape mode on mobile devices
+@media (orientation: landscape){
+  .page-container {
+    min-height: calc(100dvh - 80px);
+    height: 84dvh;
+  }
+}
 // ensures tab card content fills page height
 .tab-group {
   height: 100%;
