@@ -3,10 +3,10 @@ Personal web application for Canadian software developer Marcie Henderson.
 
 <h2>Dependencies</h2>
 <ul>
-  <li>Angular CLI </li>
-  <li>Angular Material </li>
-  <li>NodeJS </li>
-  <li>npm </li>
+  <li><a href="https://angular.io/guide/setup-local">Angular CLI</a></li>
+  <li><a href="https://material.angular.io/guide/getting-started">Angular Material</a></li>
+  <li><a href="https://nodejs.org/en/download/package-manager">NodeJS</a></li>
+  <li><a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm">npm</a></li>
 </ul>
 
 <h2>Usage</h2>
