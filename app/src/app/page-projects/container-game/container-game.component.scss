@@ -1,0 +1,13 @@
+// size container to approximately 16:9 (widescreen) ratio
+.container-game{
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: gray;
+}
+@media (orientation: landscape){
+  .container-game{
+    width: unset;
+    height: 100%;
+    aspect-ratio: 16/9;
+  }
+}
