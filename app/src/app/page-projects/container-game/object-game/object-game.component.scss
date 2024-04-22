@@ -1,6 +1,5 @@
 .object-game{
-  position: absolute; // enable overlapping and
-  // positioning relative to container
+  position: absolute; // enable overlapping and positioning relative to parent container
   background-color: var(--object-color); // color
   width: var(--object-width);   // width in px
   height: var(--object-width);  // height in px

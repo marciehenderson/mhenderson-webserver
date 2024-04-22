@@ -12,8 +12,10 @@ export class ObjectGameComponent {
   color: string;
   transform: Transform;
   size: Size;
+  isActing: boolean;
   constructor() {
     // set defaults
+    this.isActing = false;
     this.color = "black";
     this.transform = {
       position: {
@@ -25,6 +27,21 @@ export class ObjectGameComponent {
     this.size = {
       width: 10,
       height: 10,
+    }
+  }
+  // methods
+  objectController(delay: number) {
+    // do regular object stuff
+    if(!this.isActing)
+    {
+      window.setTimeout(() => {
+        if(this.color !== "blue"){
+          this.color = "blue";
+        }
+        else{
+          this.color = "red";
+        }
+      }, delay);
     }
   }
 }
