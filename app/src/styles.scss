@@ -158,8 +158,7 @@ a:hover {
   height: 100%;
 }
 .card-container {
-  display: flex;
-  align-items: flex-start; // fixes image stretching in ios safari
+  display: block !important; // fixes image stretching in ios safari
   height: 100%;
   overflow: scroll;
 }
