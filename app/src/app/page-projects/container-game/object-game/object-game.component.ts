@@ -52,6 +52,19 @@ export class ObjectGameComponent {
     //   }
     // }
   }
+  @HostListener('window:click', ['$event'])
+  handleClick(event: MouseEvent) {
+    // console.log(event);
+    let target = event.target as HTMLAreaElement;
+    if(target) {
+      if(target.className === "container-game")
+      {
+        // converts px to percent + sets relative position equal to the clicked location
+        this.transform.position.x = (event.layerX / target.offsetWidth) * 100;
+        this.transform.position.y = (event.layerY / target.offsetHeight) * 100;
+      }
+    }
+  }
   ngOnChanges() {
     // clear frequency controller and restart it if any substantial changes have occurred
     window.clearInterval(this.intervalID);

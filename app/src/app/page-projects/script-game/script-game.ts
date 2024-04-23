@@ -80,7 +80,10 @@ class PlayerObject {
       if(!this.exists) {
         this.exists = true;
         // initialize the player object
-        this.element = this.container.addElement("player", "blue", new Object({position:{x: 100, y: 30}, rotation: 0}), new Object({width:50, height: 30}));
+        // this.container.vcr._lContainer[0][0] is a reference to the dom element
+        // offsetHeight and offsetWidth are the container's dimensions
+        let context = this.container.vcr._lContainer[0][0];
+        this.element = this.container.addElement("player", "blue", new Object({position:{x: this.toPercent(10, context.offsetWidth), y: this.toPercent(10, context.offsetHeight)}, rotation: 0}), new Object({width: this.toPercent(30, context.offsetWidth), height: this.toPercent(30, context.offsetHeight)}));
         // send object script to the instance
         this.element.setInput("script", this.script);
         // example
@@ -114,5 +117,10 @@ class PlayerObject {
         this.transform.position.y += 10;
         break;
     }
+  }
+  // utility for calculating percentages
+  toPercent(px: number, context: number) {
+    let percent = (px / context) * 100; // calculate the percent from the pixels
+    return percent;
   }
 }
