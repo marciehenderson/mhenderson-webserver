@@ -36,5 +36,6 @@ export class ContainerGameComponent{
     element.setInput("color", color);
     element.setInput("transform", transform); // new Object({position:{x: 0, y: 0}, rotation: 0})
     element.setInput("size", size); // new Object({width: 0, height: 0})
+    return element;
   }
 }

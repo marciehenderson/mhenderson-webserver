@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-object-game',
@@ -14,6 +14,7 @@ export class ObjectGameComponent {
   @Input() color: string;
   @Input() transform: Transform;
   @Input() size: Size;
+  @Input() script: Function;
   constructor() {
     // set defaults
     this.instanceID = "defaultID";
@@ -29,22 +30,36 @@ export class ObjectGameComponent {
       width: 10,
       height: 10,
     }
+    this.script = () => {};
     // start frequency controller for instance
     this.intervalID = window.setInterval(this.update, 16, this.instanceID); //16ms approximately 60fps
+  }
+  // event listeners
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    // send event to script parameter
+    this.script(event);
+  }
+  @HostListener('window:mousemove', ['$event'])
+  handleMouseMove(event: MouseEvent) {
+    // example of moving object with mouse
+    // let target = event.target as HTMLAreaElement;
+    // if(target) {
+    //   if(target.className === "container-game")
+    //   {
+    //     this.transform.position.x = event.layerX;
+    //     this.transform.position.y = event.layerY;
+    //   }
+    // }
   }
   ngOnChanges() {
     // clear frequency controller and restart it if any substantial changes have occurred
     window.clearInterval(this.intervalID);
-    this.intervalID = window.setInterval(this.update, 16, this.instanceID); //16ms approximately 60fps
+    this.intervalID = window.setInterval(this.update, 16, this.script); //16ms approximately 60fps
   }
   // methods
-  update(instanceID: string) {
-    // example of an object's routine
-    let instance = document.getElementById(instanceID);
-    if(instance) {
-      let angle = instance.style.rotate;
-      instance.style.rotate = (Number(angle.split("d")[0]) + 2) + "deg";
-    }
+  update(script: Function) {
+    // script();
   }
 }
 // custom data types

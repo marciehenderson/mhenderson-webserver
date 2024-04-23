@@ -64,6 +64,10 @@ class ScriptTimer {
 // player object script
 class PlayerObject {
   container: any;
+  element: any;
+  color: any; // a reference to ObjectGameComponent's color, is actually undefined, only here to suppress a typescript error.
+  transform: any;
+  size: any;
   exists: boolean;
   constructor() {
     // initialize player element
@@ -75,9 +79,40 @@ class PlayerObject {
       // only add player element to DOM once
       if(!this.exists) {
         this.exists = true;
-        // example of setting the necessary parameters for a new player object
-        this.container.addElement("player", "blue", new Object({position:{x: 100, y: 30}, rotation: 0}), new Object({width:50, height: 30}));
+        // initialize the player object
+        this.element = this.container.addElement("player", "blue", new Object({position:{x: 100, y: 30}, rotation: 0}), new Object({width:50, height: 30}));
+        // send object script to the instance
+        this.element.setInput("script", this.script);
+        // example
+        // this.element.setInput("script", () => {document.getElementById("player")!.style.rotate = "90deg"});
       }
+    }
+  }
+  // handle controls
+  script(event: KeyboardEvent) {
+    // 'this' refers to the ObjectGameComponent instance not this class
+    let key = event.key;
+    switch(key) {
+      case 'ArrowLeft':
+        console.log("left");
+        this.color = "blue";
+        this.transform.position.x -= 10;
+        break;
+      case 'ArrowRight':
+        console.log("right");
+        this.color = "red";
+        this.transform.position.x += 10;
+        break;
+      case 'ArrowUp':
+        console.log("up");
+        this.color = "green";
+        this.transform.position.y -= 10;
+        break;
+      case 'ArrowDown':
+        console.log("down");
+        this.color = "yellow";
+        this.transform.position.y += 10;
+        break;
     }
   }
 }
