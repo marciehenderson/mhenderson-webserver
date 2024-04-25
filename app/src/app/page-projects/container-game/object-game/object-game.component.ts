@@ -14,7 +14,15 @@ export class ObjectGameComponent {
   @Input() color: string;
   @Input() transform: Transform;
   @Input() size: Size;
-  @Input() script: Function;
+  @Input() speed: number;
+  // object event scripts
+  @Input() updateScript: Function;
+  @Input() keydownScript: Function;
+  @Input() keyupScript: Function;
+  @Input() mousemoveScript: Function;
+  @Input() clickScript: Function;
+  // variables
+  intervals: IntervalInfo[] = [];
   constructor() {
     // set defaults
     this.instanceID = "defaultID";
@@ -30,49 +38,75 @@ export class ObjectGameComponent {
       width: 10,
       height: 10,
     }
-    this.script = () => {};
+    this.speed = 1;
+    // initialize event scripts
+    this.updateScript = () => {};
+    this.keydownScript = () => {};
+    this.keyupScript = () => {};
+    this.mousemoveScript = () => {};
+    this.clickScript = () => {};
     // start frequency controller for instance
-    this.intervalID = window.setInterval(this.update, 16, this.instanceID); //16ms approximately 60fps
+    this.intervalID = window.setInterval(this.update, 16, this.updateScript); //16ms approximately 60fps
   }
   // event listeners
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     // send event to script parameter
-    this.script(event);
+    this.catchReturn(this.keydownScript(event));
+  }
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+    this.keyupScript(event);
   }
   @HostListener('window:mousemove', ['$event'])
   handleMouseMove(event: MouseEvent) {
-    // example of moving object with mouse
-    // let target = event.target as HTMLAreaElement;
-    // if(target) {
-    //   if(target.className === "container-game")
-    //   {
-    //     this.transform.position.x = event.layerX;
-    //     this.transform.position.y = event.layerY;
-    //   }
-    // }
+    // mouse move script
+    this.mousemoveScript(event);
   }
   @HostListener('window:click', ['$event'])
   handleClick(event: MouseEvent) {
-    // console.log(event);
-    let target = event.target as HTMLAreaElement;
-    if(target) {
-      if(target.className === "container-game")
-      {
-        // converts px to percent + sets relative position equal to the clicked location
-        this.transform.position.x = (event.layerX / target.offsetWidth) * 100;
-        this.transform.position.y = (event.layerY / target.offsetHeight) * 100;
-      }
-    }
+    // click script
+    this.clickScript(event);
   }
   ngOnChanges() {
     // clear frequency controller and restart it if any substantial changes have occurred
     window.clearInterval(this.intervalID);
-    this.intervalID = window.setInterval(this.update, 16, this.script); //16ms approximately 60fps
+    this.intervalID = window.setInterval(this.update, 16, this.updateScript); //16ms approximately 60fps
+  }
+  update(script: Function) {
+    // update script();
+    script();
   }
   // methods
-  update(script: Function) {
-    // script();
+  catchReturn(value: any) {
+    // handle event return values by type
+    switch(typeof value) {
+      case 'object':
+        // is the object an IntervalInfo type
+        if(value.id && value.token) {
+          // has this object been recorded yet?
+          for(const info of this.intervals) {
+            if(info.token == value.token) {
+              if(info.id == value.id) {
+                // don't append the value if it already has been
+                break;
+              }
+              else {
+                // 1 interval per token
+                // clear the old interval
+                window.clearInterval(info.id);
+                // remove old interval from list
+                this.intervals = this.intervals.filter((val) => {return val !== info});
+              }
+            }
+          }
+          // record the value in 'intervals'
+          this.intervals.push(value);
+        }
+        break;
+      default:
+        break;
+    }
   }
 }
 // custom data types
@@ -87,4 +121,8 @@ type Transform = {
 type Size = {
   width: number;
   height: number;
+}
+type IntervalInfo = {
+  id: number;
+  token: string;
 }

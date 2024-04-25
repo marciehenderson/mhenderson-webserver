@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 // exported injectable script
 @Injectable({providedIn: 'root'})
 export class ScriptGameComponent {
@@ -7,16 +7,16 @@ export class ScriptGameComponent {
   player: PlayerObject;
   constructor() {
     this.timer = new ScriptTimer("delay", 500, () => {console.log("hello")});
-    this.player = new PlayerObject();
+    this.player = new PlayerObject("player", "yellow", 10, 10, 0, 30, 30, 3);
   }
   main() {
-    // testing the timer class
+    // test the timer class
     this.timer.update();
     // update container reference for player if original reference has changed
     if(this.container !== this.player.container) {
       this.player.container = this.container;
     }
-    // test the player class
+    // update player object
     this.player.update();
   }
 }
@@ -63,14 +63,36 @@ class ScriptTimer {
 }
 // player object script
 class PlayerObject {
+  // container
   container: any;
+  // component attributes
   element: any;
-  color: any; // a reference to ObjectGameComponent's color, is actually undefined, only here to suppress a typescript error.
-  transform: any;
-  size: any;
+  instanceID: string;
+  color: string;
+  transform: Transform;
+  size: Size;
+  // component variables
+  intervals: IntervalInfo[] = [];
+  // player variables
+  speed: number;
+  // flags
   exists: boolean;
-  constructor() {
+  constructor(id: string, clr: string, x: number, y: number, r: number, w: number, h: number, s: number) {
     // initialize player element
+    this.instanceID = id
+    this.color = clr;
+    this.transform = {
+      position: {
+        x: x,
+        y: y,
+      },
+      rotation: r,
+    }
+    this.size = {
+      width: w,
+      height: h,
+    }
+    this.speed = s;
     this.exists = false;
   }
   update() {
@@ -83,44 +105,117 @@ class PlayerObject {
         // this.container.vcr._lContainer[0][0] is a reference to the dom element
         // offsetHeight and offsetWidth are the container's dimensions
         let context = this.container.vcr._lContainer[0][0];
-        this.element = this.container.addElement("player", "blue", new Object({position:{x: this.toPercent(10, context.offsetWidth), y: this.toPercent(10, context.offsetHeight)}, rotation: 0}), new Object({width: this.toPercent(30, context.offsetWidth), height: this.toPercent(30, context.offsetHeight)}));
-        // send object script to the instance
-        this.element.setInput("script", this.script);
-        // example
-        // this.element.setInput("script", () => {document.getElementById("player")!.style.rotate = "90deg"});
+        // proportionally set transform and size
+        this.setTransform(context, this.transform.position.x, this.transform.position.y);
+        this.setSize(context, this.size.width, this.size.height);
+        // create the element instance
+        this.element = this.container.addElement(this.instanceID, this.color, this.transform, this.size);
+        // set instance speed
+        this.element.setInput("speed", this.speed);
+        // send object scripts to the instance
+        this.element.setInput("keydownScript", this.keydownScript);
+        this.element.setInput("keyupScript", this.keyupScript);
+        this.element.setInput("clickScript", this.clickScript);
+        this.element.setInput("mousemoveScript", this.mousemoveScript)
       }
     }
   }
-  // handle controls
-  script(event: KeyboardEvent) {
+  // event scripts
+  // update event script
+  updateScript() {
+
+  }
+  // keydown event script
+  keydownScript(event: KeyboardEvent) {
     // 'this' refers to the ObjectGameComponent instance not this class
+    // get useful event properties
     let key = event.key;
+    let target = event.target as HTMLAreaElement;
+    // define local method with lambda function
+    let toPercent = (px: number, context: number) => {
+      return (px / context ) * 100;
+    };
+    // interval information variable
+    let intervalInfo: IntervalInfo = { id: 0, token: key, };
     switch(key) {
-      case 'ArrowLeft':
-        console.log("left");
-        this.color = "blue";
-        this.transform.position.x -= 10;
+      case 'q': // counterclockwise
+        intervalInfo.id = window.setInterval(() => {this.transform.rotation -= 1;});
         break;
-      case 'ArrowRight':
-        console.log("right");
-        this.color = "red";
-        this.transform.position.x += 10;
+      case 'e': // clockwise
+        intervalInfo.id = window.setInterval(() => {this.transform.rotation += 1;});
         break;
-      case 'ArrowUp':
-        console.log("up");
-        this.color = "green";
-        this.transform.position.y -= 10;
+      case 'a': // left
+        intervalInfo.id = window.setInterval(() => {this.transform.position.x -= toPercent(this.speed, target.offsetWidth);}, 16);
         break;
-      case 'ArrowDown':
-        console.log("down");
-        this.color = "yellow";
-        this.transform.position.y += 10;
+      case 'd': // right
+        intervalInfo.id = window.setInterval(() => {this.transform.position.x += toPercent(this.speed, target.offsetWidth);}, 16);
+        break;
+      case 'w': // up
+        intervalInfo.id = window.setInterval(() => {this.transform.position.y -= toPercent(this.speed, target.offsetHeight);}, 16);
+        break;
+      case 's': // down
+        intervalInfo.id = window.setInterval(() => {this.transform.position.y += toPercent(this.speed, target.offsetHeight);}, 16);
         break;
     }
+    return intervalInfo;
+  }
+  // keyup event script
+  keyupScript(event: KeyboardEvent) {
+    for(const info of this.intervals) {
+      if(info.token == event.key) {
+        window.clearInterval(info.id);
+        this.intervals = this.intervals.filter((val) => {return val !== info});
+      }
+    }
+  }
+  // mousemove event script
+  mousemoveScript(event: MouseEvent) {
+
+  }
+  // click event script
+  clickScript(event: MouseEvent) {
+    // example of moving object to click location
+    // let target = event.target as HTMLAreaElement;
+    // if(target) {
+    //   if(target.className === "container-game")
+    //   {
+    //     // converts px to percent + sets relative position equal to the clicked location
+    //     // also makes origin the center of the object
+    //     this.transform.position.x = ((event.layerX / target.offsetWidth) * 100) - (this.size.width / 2);
+    //     this.transform.position.y = ((event.layerY / target.offsetHeight) * 100) - (this.size.height / 2);
+    //   }
+    // }
+  }
+  // setters for transform and size, uses toPercent
+  setTransform(context: any, x?: number, y?: number, r?: number) {
+    if(x) this.transform.position.x = this.toPercent(x, context.offsetWidth);
+    if(y) this.transform.position.y = this.toPercent(y, context.offsetHeight);
+    if(r) this.transform.rotation = r;
+  }
+  setSize(context: any, w?: number, h?: number) {
+    if(w) this.size.width = this.toPercent(w, context.offsetWidth);
+    if(h) this.size.height = this.toPercent(h, context.offsetHeight)
   }
   // utility for calculating percentages
   toPercent(px: number, context: number) {
     let percent = (px / context) * 100; // calculate the percent from the pixels
     return percent;
   }
+}
+// custom data types for positioning and sizing
+type Position = {
+  x: number;
+  y: number;
+}
+type Transform = {
+  position: Position;
+  rotation: number;
+}
+type Size = {
+  width: number;
+  height: number;
+}
+type IntervalInfo = {
+  id: number;
+  token: string;
 }
