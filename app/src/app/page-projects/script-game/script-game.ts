@@ -7,7 +7,7 @@ export class ScriptGameComponent {
   player: PlayerObject;
   constructor() {
     this.timer = new ScriptTimer("delay", 500, () => {console.log("hello")});
-    this.player = new PlayerObject("player", "yellow", 10, 10, 0, 30, 30, 3);
+    this.player = new PlayerObject("player", "yellow", 50, 80, 0, 9/2, 16/2, 3);
   }
   main() {
     // test the timer class
@@ -106,8 +106,16 @@ class PlayerObject {
         // offsetHeight and offsetWidth are the container's dimensions
         let context = this.container.vcr._lContainer[0][0];
         // proportionally set transform and size
-        this.setTransform(context, this.transform.position.x, this.transform.position.y);
-        this.setSize(context, this.size.width, this.size.height);
+        this.setTransform(
+          context,
+          this.toPixels(this.transform.position.x - this.size.width/2, context.offsetWidth),
+          this.toPixels(this.transform.position.y - this.size.height/2, context.offsetHeight)
+        );
+        this.setSize(
+          context,
+          this.toPixels(this.size.width, context.offsetWidth),
+          this.toPixels(this.size.height, context.offsetHeight)
+        );
         // create the element instance
         this.element = this.container.addElement(this.instanceID, this.color, this.transform, this.size);
         // set instance speed
@@ -132,9 +140,18 @@ class PlayerObject {
     let key = event.key;
     let target = event.target as HTMLAreaElement;
     // define local method with lambda function
-    let toPercent = (px: number, context: number) => {
-      return (px / context ) * 100;
+    let toPercent = (value: number, context: number) => {
+      return (value / context ) * 100;
     };
+    // condition which fixes speed imbalance in mobile vertical display mode
+    let ratio = 0;
+    if(target.offsetWidth > target.offsetHeight) {
+      ratio = 1;
+    }
+    else {
+      ratio = target.offsetHeight/target.offsetWidth;
+    }
+
     // interval information variable
     let intervalInfo: IntervalInfo = { id: 0, token: key, };
     switch(key) {
@@ -145,16 +162,44 @@ class PlayerObject {
         intervalInfo.id = window.setInterval(() => {this.transform.rotation += 1;});
         break;
       case 'a': // left
-        intervalInfo.id = window.setInterval(() => {this.transform.position.x -= toPercent(this.speed, target.offsetWidth);}, 16);
+        intervalInfo.id = window.setInterval(() => {
+          if(this.transform.position.x < 1 + this.size.width) {
+            window.clearInterval(intervalInfo.id);
+          }
+          else {
+            this.transform.position.x -= toPercent(this.speed, target.offsetWidth*ratio);
+          }
+        }, 16);
         break;
       case 'd': // right
-        intervalInfo.id = window.setInterval(() => {this.transform.position.x += toPercent(this.speed, target.offsetWidth);}, 16);
+        intervalInfo.id = window.setInterval(() => {
+          if(this.transform.position.x > 99 - this.size.width*2) {
+            window.clearInterval(intervalInfo.id);
+          }
+          else {
+            this.transform.position.x += toPercent(this.speed, target.offsetWidth*ratio);
+          }
+        }, 16);
         break;
       case 'w': // up
-        intervalInfo.id = window.setInterval(() => {this.transform.position.y -= toPercent(this.speed, target.offsetHeight);}, 16);
+        intervalInfo.id = window.setInterval(() => {
+          if(this.transform.position.y < 1 + this.size.height) {
+            window.clearInterval(intervalInfo.id);
+          }
+          else {
+            this.transform.position.y -= toPercent(this.speed, target.offsetHeight/ratio);
+          }
+        }, 16);
         break;
       case 's': // down
-        intervalInfo.id = window.setInterval(() => {this.transform.position.y += toPercent(this.speed, target.offsetHeight);}, 16);
+        intervalInfo.id = window.setInterval(() => {
+          if(this.transform.position.y > 99 - this.size.height*2) {
+            window.clearInterval(intervalInfo.id);
+          }
+          else {
+            this.transform.position.y += toPercent(this.speed, target.offsetHeight/ratio);
+          }
+        }, 16);
         break;
     }
     return intervalInfo;
@@ -197,9 +242,14 @@ class PlayerObject {
     if(h) this.size.height = this.toPercent(h, context.offsetHeight)
   }
   // utility for calculating percentages
-  toPercent(px: number, context: number) {
-    let percent = (px / context) * 100; // calculate the percent from the pixels
+  toPercent(value: number, context: number) {
+    let percent = (value / context) * 100; // calculate the percent from the pixels
     return percent;
+  }
+  // utility for converting percent to px
+  toPixels(value: number, context: number) {
+    let pixels = (value * context) / 100;
+    return pixels;
   }
 }
 // custom data types for positioning and sizing
